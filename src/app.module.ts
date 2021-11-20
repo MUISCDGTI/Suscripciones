@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { SuscriptionsModule } from './suscriptions/suscriptions.module';
 import { Suscription } from './suscriptions/suscription.entity';
 
 @Module({
@@ -15,6 +16,7 @@ import { Suscription } from './suscriptions/suscription.entity';
       entities: [Suscription],
       synchronize: true,
     }),
+    SuscriptionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

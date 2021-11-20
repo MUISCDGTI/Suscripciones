@@ -1,21 +1,16 @@
-import {
-  Column,
-  Entity,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, ObjectIdColumn } from 'typeorm';
 import { MaxLength, MinLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 @Entity()
 export class Suscription {
   @ApiProperty()
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @ObjectIdColumn({ generated: true })
+  _id: string;
 
   @ApiProperty()
   @Column()
   @MaxLength(50)
   @MinLength(4)
   subject: string;
-
 }
