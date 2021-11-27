@@ -23,7 +23,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: okteto/context@latest
+      - uses: okteto/login@latest
         with:
           token: ${{ secrets.OKTETO_TOKEN }}
         
