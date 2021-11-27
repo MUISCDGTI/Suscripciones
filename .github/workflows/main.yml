@@ -26,18 +26,12 @@ jobs:
       - name: checkout
         uses: actions/checkout@main
       
-      - uses: okteto/context@latest
+      - uses: okteto/login@latest
         with:
           token: ${{ secrets.OKTETO_TOKEN }}
         
-      - name: "Activate Namespace"
-        uses: okteto/amaliof96@latest
+      - name: Okteto Pipeline
+        uses: okteto/pipeline@latest
         with:
-          name: amaliof96
-  
-
-      # Runs a single command using the runners shell
-      - name: "Create stack"
-        uses: okteto/deploy-stack@latest
-        with:
-          build: "true"
+          name: suscripciones
+          namespace: amaliof96
