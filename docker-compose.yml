@@ -16,7 +16,7 @@ services:
   suscripciones:
     image: node:16.13.0-stretch
     volumes:
-      - ../Suscripciones:/suscripciones
+      - ./:/suscripciones
     working_dir: /suscripciones
     command: bash -c "yarn start:dev"
     expose:
