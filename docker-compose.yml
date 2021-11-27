@@ -18,7 +18,7 @@ services:
     volumes:
       - ./:/suscripciones
     working_dir: /suscripciones
-    command: bash -c "yarn start:dev"
+    command: bash -c "yarn start:dev && npm i"
     expose:
       - '3000'
     ports:
