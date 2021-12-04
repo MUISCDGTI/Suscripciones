@@ -1,17 +1,17 @@
 version: '3.4'
 
 services:
-  db:
-    image: mongo
-    restart: always
-    expose: 
-      - '27017'
-    ports:
-      - '27017:27017'
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: up0
-      MONGO_INITDB_ROOT_PASSWORD: up0
-      MONGO_INITDB_DATABASE: suscripciones
+  # db:
+  #   image: mongo
+  #   restart: always
+  #   expose: 
+  #     - '27017'
+  #   ports:
+  #     - '27017:27017'
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: up0
+  #     MONGO_INITDB_ROOT_PASSWORD: up0
+  #     MONGO_INITDB_DATABASE: suscripciones
 
   suscripciones:
     image: node:16.13.0-stretch
@@ -32,7 +32,7 @@ services:
       - HOST_BASE_URL=api/v1/
       - SMTP_USER=rottenpotatoesgrupo3fis@gmail.com
       - SMTP_PASS=r0tt3nP0T4T03S
-    depends_on:
-      - db
-    links:
-      - db
+    # depends_on:
+    #   - db
+    # links:
+    #   - db

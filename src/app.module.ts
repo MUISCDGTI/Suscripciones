@@ -10,10 +10,10 @@ import { NotificationsModule } from './notifications/notifications.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mongodb',
-      host: 'db',
-      port: 27017,
-      username: 'up0',
-      password: 'up0',
+      url: "mongodb+srv://rottenPotatoes:r0tt3nP0T4T03S@rottenpotatoes.jsp4d.mongodb.net/RottenPotatoes?retryWrites=true&w=majority",
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+      logging: true,
       entities: [Suscription],
       synchronize: true,
     }),
