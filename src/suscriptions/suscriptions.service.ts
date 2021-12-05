@@ -17,8 +17,12 @@ export class SuscriptionsService {
     return this.suscriptionsRepository.save(suscription);
   }
 
-  findAll(): Promise<Suscription[]> {
-    return this.suscriptionsRepository.find();
+  findAll(email = ''): Promise<Suscription[]> {
+    if (email && email != ''){
+      return this.suscriptionsRepository.find({mail: email});
+    }else{
+      return this.suscriptionsRepository.find();
+    }
   }
 
   async findOne(id: string): Promise<Suscription> {

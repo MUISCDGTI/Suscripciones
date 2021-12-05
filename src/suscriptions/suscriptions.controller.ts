@@ -8,9 +8,10 @@ import {
   Param,
   Post,
   Put,
+  Query,
   Res,
 } from '@nestjs/common';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { Response } from 'express';
 import { Suscription } from './suscription.entity';
 import { SuscriptionsService } from './suscriptions.service';
@@ -44,8 +45,16 @@ export class SuscriptionsController {
     description: 'The list of suscriptions have been retrieved successfully',
     type: [Suscription],
   })
-  async getSuscriptions(): Promise<Suscription[]> {
-    return await this.suscriptionsService.findAll();
+  @ApiQuery({
+    name: 'email',
+    type: String,
+    description: "An email to filter by",
+    required: false
+  })
+  async getSuscriptions(
+    @Query('email') email: string,
+  ): Promise<Suscription[]> {
+    return await this.suscriptionsService.findAll(email);
   }
 
   @Get(':id')
