@@ -1,5 +1,5 @@
 import { Column, Entity, ObjectIdColumn } from 'typeorm';
-import { MaxLength, MinLength } from 'class-validator';
+import { IsEmail, MaxLength, MinLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 @Entity()
@@ -13,4 +13,11 @@ export class Suscription {
   @MaxLength(50)
   @MinLength(4)
   subject: string;
+
+  @ApiProperty()
+  @Column()
+  @MaxLength(50)
+  @MinLength(4)
+  @IsEmail()
+  mail: string;
 }
