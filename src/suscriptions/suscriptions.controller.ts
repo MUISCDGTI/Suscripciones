@@ -19,6 +19,7 @@ import UpdateSuscriptionDto from './dto/updateSuscription.dto';
 import CreateSuscriptionDto from './dto/createSuscription.dto';
 
 const endpoint = process.env.HOST_BASE_URL;
+
 @Controller(endpoint.concat('suscripciones'))
 export class SuscriptionsController {
   constructor(private readonly suscriptionsService: SuscriptionsService) {}
@@ -48,13 +49,17 @@ export class SuscriptionsController {
   @ApiQuery({
     name: 'email',
     type: String,
-    description: "An email to filter by",
-    required: false
+    description: 'An email to filter by',
+    required: false,
   })
-  async getSuscriptions(
-    @Query('email') email: string,
-  ): Promise<Suscription[]> {
-    return await this.suscriptionsService.findAll(email);
+  @ApiQuery({
+    name: 'category',
+    type: String,
+    description: 'An category to filter by',
+    required: false,
+  })
+  async getSuscriptions(@Query('email') email: string, @Query('category') category: string): Promise<Suscription[]> {
+    return await this.suscriptionsService.findAll(email, category);
   }
 
   @Get(':id')

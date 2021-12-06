@@ -20,4 +20,10 @@ export class Suscription {
   @MinLength(4)
   @IsEmail()
   mail: string;
+
+  @ApiProperty()
+  @Column()
+  @MaxLength(8)
+  @MinLength(7)
+  category: string;
 }

@@ -16,6 +16,11 @@ class CreateSuscriptionDto {
   @MinLength(4)
   @IsEmail()
   mail: string;
+
+  @ApiProperty()
+  @MaxLength(50)
+  @MinLength(4)
+  category: string;
 }
 
 export default CreateSuscriptionDto;

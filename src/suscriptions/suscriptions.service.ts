@@ -17,10 +17,28 @@ export class SuscriptionsService {
     return this.suscriptionsRepository.save(suscription);
   }
 
-  findAll(email = ''): Promise<Suscription[]> {
-    if (email && email != ''){
-      return this.suscriptionsRepository.find({mail: email});
-    }else{
+  findAll(email = '', cat = ''): Promise<Suscription[]> {
+    let findAll = true;
+
+    if (email && email != '' && cat && cat != '') {
+      
+      findAll = false;
+      return this.suscriptionsRepository.find({ mail: email, category: cat });
+    
+    } else {
+      
+      if (email && email != '') {
+        findAll = false;
+        return this.suscriptionsRepository.find({ mail: email });
+      }
+      
+      if (cat && cat != '') {
+        findAll = false;
+        return this.suscriptionsRepository.find({ category: cat });
+      }
+    }
+
+    if (findAll) {
       return this.suscriptionsRepository.find();
     }
   }
