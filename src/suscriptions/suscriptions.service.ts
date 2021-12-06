@@ -17,7 +17,7 @@ export class SuscriptionsService {
     return this.suscriptionsRepository.save(suscription);
   }
 
-  findAll(email = '', cat = ''): Promise<Suscription[]> {
+  findAll(email = '', cat): Promise<Suscription[]> {
     let findAll = true;
 
     if (email && email != '' && cat && cat != '') {
@@ -31,7 +31,7 @@ export class SuscriptionsService {
         findAll = false;
         return this.suscriptionsRepository.find({ mail: email });
       }
-      
+
       if (cat && cat != '') {
         findAll = false;
         return this.suscriptionsRepository.find({ category: cat });
