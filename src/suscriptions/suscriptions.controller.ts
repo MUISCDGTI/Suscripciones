@@ -17,6 +17,7 @@ import { Suscription } from './suscription.entity';
 import { SuscriptionsService } from './suscriptions.service';
 import UpdateSuscriptionDto from './dto/updateSuscription.dto';
 import CreateSuscriptionDto from './dto/createSuscription.dto';
+import { Categories } from 'src/enums/categories';
 
 const endpoint = process.env.HOST_BASE_URL;
 
@@ -54,11 +55,11 @@ export class SuscriptionsController {
   })
   @ApiQuery({
     name: 'category',
-    type: String,
+    enum: Categories,
     description: 'An category to filter by',
     required: false,
   })
-  async getSuscriptions(@Query('email') email: string, @Query('category') category: string): Promise<Suscription[]> {
+  async getSuscriptions(@Query('email') email: string, @Query('category') category: Categories): Promise<Suscription[]> {
     return await this.suscriptionsService.findAll(email, category);
   }
 
