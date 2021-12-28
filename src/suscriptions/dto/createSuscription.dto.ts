@@ -1,9 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEmail,
+  IsEnum,
   MaxLength,
   MinLength,
 } from 'class-validator';
+import { Categories } from 'src/enums/categories';
 
 class CreateSuscriptionDto {
   @ApiProperty()
@@ -17,10 +19,9 @@ class CreateSuscriptionDto {
   @IsEmail()
   mail: string;
 
-  @ApiProperty()
-  @MaxLength(50)
-  @MinLength(4)
-  category: string;
+  @IsEnum(Categories)
+  @ApiProperty({enum: Categories})
+  category: Categories;
 }
 
 export default CreateSuscriptionDto;
