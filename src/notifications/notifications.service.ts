@@ -1,17 +1,26 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { Categories } from 'src/enums/categories';
+import { SuscriptionsService } from 'src/suscriptions/suscriptions.service';
 import CreateNotificationDto from './dto/createNotification.dto';
 
 @Injectable()
 export class NotificationsService {
   constructor(
     private readonly mailerService: MailerService,
+    private readonly suscriptionsService: SuscriptionsService,
   ) {}
 
-  notify(suscription: CreateNotificationDto): Promise<boolean> {
-    //TODO
-    const a = this.send({ email: 'alvaronavarromora3@gmail.com', subject: 'test', name: 'Álvaro', customMessage: 'Prueba de concepto'});
-    return Promise.resolve(a);
+  async notify(notification: CreateNotificationDto): Promise<boolean> {
+    const subscribers = await this.suscriptionsService.findAll('', notification.topic, notification.type);
+    var messagesSent = true;
+    for ( var subscriber of subscribers){
+      if (! await this.send({ email: subscriber.mail, subject: subscriber.subject, name: "TODO NOMBRE", customMessage: 'TODO MENSAJE'})){
+        messagesSent = false;
+      }
+    }
+    
+    return Promise.resolve(messagesSent);
   }
 
   async send({ email: to, subject, name, customMessage }): Promise<boolean> {

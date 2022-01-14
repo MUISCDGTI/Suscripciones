@@ -60,7 +60,7 @@ export class SuscriptionsController {
     required: false,
   })
   async getSuscriptions(@Query('email') email: string, @Query('category') category: Categories): Promise<Suscription[]> {
-    return await this.suscriptionsService.findAll(email, category);
+    return await this.suscriptionsService.findAll(email, '', category);
   }
 
   @Get(':id')

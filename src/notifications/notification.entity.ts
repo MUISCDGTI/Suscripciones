@@ -13,4 +13,10 @@ export class Notification {
   @MaxLength(50)
   @MinLength(4)
   topic: string;
+
+  @ApiProperty()
+  @Column()
+  @MaxLength(50)
+  @MinLength(4)
+  type: string;
 }

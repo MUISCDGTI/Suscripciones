@@ -9,6 +9,11 @@ class CreateNotificationDto {
   @MaxLength(50)
   @MinLength(4)
   topic: string;
+
+  @ApiProperty()
+  @MaxLength(50)
+  @MinLength(4)
+  type: string;
 }
 
 export default CreateNotificationDto;
