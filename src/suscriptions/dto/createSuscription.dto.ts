@@ -5,7 +5,7 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { Categories } from 'src/enums/categories';
+import { Categories } from '../../enums/categories';
 
 class CreateSuscriptionDto {
   @ApiProperty()
