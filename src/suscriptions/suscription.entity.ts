@@ -1,6 +1,7 @@
 import { Column, Entity, ObjectIdColumn } from 'typeorm';
-import { IsEmail, MaxLength, MinLength } from 'class-validator';
+import { IsEmail, IsEnum, MaxLength, MinLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Categories } from '../enums/categories';
 
 @Entity()
 export class Suscription {
@@ -21,9 +22,10 @@ export class Suscription {
   @IsEmail()
   mail: string;
 
-  @ApiProperty()
+  @IsEnum(Categories)
+  @ApiProperty({enum: Categories})
   @Column()
   @MaxLength(8)
   @MinLength(7)
-  category: string;
+  category: Categories;
 }

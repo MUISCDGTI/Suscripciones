@@ -10,7 +10,7 @@ import { NotificationsModule } from './notifications/notifications.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mongodb',
-      url: "mongodb+srv://rottenPotatoes:r0tt3nP0T4T03S@rottenpotatoes.jsp4d.mongodb.net/RottenPotatoes?retryWrites=true&w=majority",
+      url: process.env.MONGO_URL,
       useUnifiedTopology: true,
       useNewUrlParser: true,
       logging: true,
