@@ -12,7 +12,7 @@ export class NotificationsService {
   ) {}
 
   async notify(notification: CreateNotificationDto): Promise<boolean> {
-    const subscribers = await this.suscriptionsService.findAll('', notification.topic, notification.type);
+    const subscribers = await this.suscriptionsService.findAll('', notification.topic, notification.category);
     var messagesSent = true;
     for ( var subscriber of subscribers){
       if (! await this.send({ email: subscriber.mail, subject: subscriber.subject, name: "TODO NOMBRE", customMessage: 'TODO MENSAJE'})){
