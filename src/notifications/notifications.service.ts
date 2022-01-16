@@ -20,12 +20,10 @@ export class NotificationsService {
     
     if ( notification.category == Categories.Pelicula){
       response = await this.getFilm(notification.referenceId);
-      console.log(response);
       topics = response.data.genre;
       title = response.data.title;
     }else{
       response = await this.getNew(notification.referenceId);
-      console.log(response);
       topics = response.data.tags;
       title = response.data.title;
     }
@@ -50,10 +48,9 @@ export class NotificationsService {
   }
 
   async getFilm(filmId) {
-    axios.get(
+    return axios.get(
       "https://api-drorganvidez.cloud.okteto.net/api/v1/films/"+filmId,
       {params:{apikey:"06271241-163c-4b95-bcb3-880be1e0be95"}},
-      //+"/?apikey=06271241-163c-4b95-bcb3-880be1e0be95",
     ).then((res) => res).catch((error) => error.response);
   }
 
