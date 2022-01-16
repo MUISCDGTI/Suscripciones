@@ -16,17 +16,18 @@ export class NotificationsService {
     var response;
     var title = '';
     var message = '';
-    var topics;
+    var topics=[]; 
+    
     if ( notification.category == Categories.Pelicula){
-      response = await this.getFilm(notification.referenceId)
+      response = await this.getFilm(notification.referenceId);
+      console.log(response);
       topics = response.data.genre;
       title = response.data.title;
     }else{
-      var response = await this.getNew(notification.referenceId);
-      topics = response.data.genre;
+      response = await this.getNew(notification.referenceId);
+      console.log(response);
+      topics = response.data.tags;
       title = response.data.title;
-      message = "Hola! Se ha subido una nueva noticia con tílulo \""+title+"\", que tiene la etiqueta "
-      + topics + " a la que estás suscrito/a.";
     }
     var messagesSent = true;
     for ( var topic of topics){
@@ -51,12 +52,15 @@ export class NotificationsService {
   async getFilm(filmId) {
     axios.get(
       "https://api-drorganvidez.cloud.okteto.net/api/v1/films/"+filmId,
+      {params:{apikey:"06271241-163c-4b95-bcb3-880be1e0be95"}},
+      //+"/?apikey=06271241-163c-4b95-bcb3-880be1e0be95",
     ).then((res) => res).catch((error) => error.response);
   }
 
   async getNew(newId) {
     return axios.get(
       "https://api-fis-josenggn.cloud.okteto.net/api/v1/news/"+newId,
+      {params:{apikey:"1ad4ca7f-f0bd-4f36-947b-2effe8a07720"}},
     ).then((res) => res).catch((error) => error.response);
   }
 
