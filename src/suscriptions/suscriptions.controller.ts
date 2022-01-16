@@ -18,12 +18,16 @@ import { SuscriptionsService } from './suscriptions.service';
 import UpdateSuscriptionDto from './dto/updateSuscription.dto';
 import CreateSuscriptionDto from './dto/createSuscription.dto';
 import { Categories } from '../enums/categories';
+import { AppService } from 'src/app.service';
 
-const endpoint = process.env.HOST_BASE_URL || "";
+const endpoint = process.env.HOST_BASE_URL || '';
 
 @Controller(endpoint.concat('suscripciones'))
 export class SuscriptionsController {
-  constructor(private readonly suscriptionsService: SuscriptionsService) {}
+  constructor(
+    private readonly suscriptionsService: SuscriptionsService,
+    private readonly appService: AppService,
+  ) {}
 
   @ApiResponse({
     status: 201,
@@ -59,8 +63,24 @@ export class SuscriptionsController {
     description: 'An category to filter by',
     required: false,
   })
-  async getSuscriptions(@Query('email') email: string, @Query('category') category: Categories): Promise<Suscription[]> {
-    return await this.suscriptionsService.findAll(email, '', category);
+  @ApiQuery({
+    name: 'apikey',
+    type: String,
+    description: 'Autentication',
+    required: true,
+  })
+  async getSuscriptions(
+    @Query('email') email: string,
+    @Query('category') category: Categories,
+    @Query('apikey') apikey: string,
+    @Res() response?: Response,
+  ): Promise<Suscription[]> {
+    if (this.appService.verifyApiKey(apikey)) {
+      return await this.suscriptionsService.findAll(email, '', category);
+    } else {
+      response?.status(HttpStatus.NOT_FOUND).send();
+      return
+    }
   }
 
   @Get(':id')
