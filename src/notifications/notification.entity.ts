@@ -9,12 +9,6 @@ export class Notification {
   @ObjectIdColumn({ generated: true })
   _id: string;
 
-  @ApiProperty()
-  @Column()
-  @MaxLength(50)
-  @MinLength(4)
-  topic: string;
-
   @IsEnum(Categories)
   @ApiProperty({enum: Categories})
   @Column()
