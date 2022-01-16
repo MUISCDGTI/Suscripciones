@@ -6,17 +6,16 @@ import axios from 'axios';
 export class AppService {
   async verifyApiKey(apikey: string) : Promise<boolean>{
     var output = false;
-    var response = axios.post(
+    var response = await axios.post(
         "https://api-gfpedro.cloud.okteto.net/isAuthenticated",
         {token:apikey},
       ).then((res) => res).catch((error) => error.response);
     
-      console.log(response);
-    if(response){
+    if(response?.status == 204){
         output=true;
     }
-
-    return output;
+console.log(output);
+    return Promise.resolve(output);
 
   }
 }

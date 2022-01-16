@@ -28,7 +28,6 @@ export class SuscriptionsController {
     private readonly suscriptionsService: SuscriptionsService,
     private readonly appService: AppService,
   ) {}
-
   @ApiResponse({
     status: 201,
     description: 'The suscription has been created successfully',
@@ -50,10 +49,11 @@ export class SuscriptionsController {
     @Query('apikey') apikey: string,
     @Res() response?: Response,
   ): Promise<Suscription> {
-    if (this.appService.verifyApiKey(apikey)) {
-      return await this.suscriptionsService.create(createSuscriptionDto);
+    if (await this.appService.verifyApiKey(apikey)) {
+      response.status(HttpStatus.CREATED);
+      response.send(await this.suscriptionsService.create(createSuscriptionDto));
     } else {
-      response?.status(HttpStatus.NOT_FOUND).send();
+      response?.status(HttpStatus.FORBIDDEN).send();
       return;
     }
   }
@@ -88,10 +88,12 @@ export class SuscriptionsController {
     @Query('apikey') apikey: string,
     @Res() response?: Response,
   ): Promise<Suscription[]> {
-    if (this.appService.verifyApiKey(apikey)) {
-      return await this.suscriptionsService.findAll(email, '', category);
+    if (await this.appService.verifyApiKey(apikey)) {
+      response.status(HttpStatus.OK);
+      response.send( await this.suscriptionsService.findAll(email, '', category));
+      return;
     } else {
-      response?.status(HttpStatus.NOT_FOUND).send();
+      response?.status(HttpStatus.FORBIDDEN).send();
       return;
     }
   }
@@ -117,7 +119,14 @@ export class SuscriptionsController {
     @Query('apikey') apikey: string,
     @Res() response?: Response,
   ): Promise<Suscription> {
-    return await this.suscriptionsService.findOne(params.id);
+    if (await this.appService.verifyApiKey(apikey)) {
+      response.status(HttpStatus.OK);
+      response.send( await this.suscriptionsService.findOne(params.id));
+      return;
+    } else {
+      response?.status(HttpStatus.FORBIDDEN).send();
+      return;
+    }
   }
 
   @ApiResponse({
@@ -141,11 +150,14 @@ export class SuscriptionsController {
     @Res() response?: Response,
   ) {
     const deleteResult = await this.suscriptionsService.remove(params.id);
-    if (this.appService.verifyApiKey(apikey) && deleteResult?.affected === 0) {
+    if (await this.appService.verifyApiKey(apikey) && deleteResult?.affected === 0) {
       if (deleteResult?.affected === 0)
         response?.status(HttpStatus.NOT_FOUND).send();
 
       response?.status(HttpStatus.NO_CONTENT).send();
+    } else {
+      response?.status(HttpStatus.FORBIDDEN).send();
+      return;
     }
 
     return;
@@ -178,13 +190,17 @@ export class SuscriptionsController {
     @Query('apikey') apikey: string,
     @Res() response?: Response,
   ): Promise<Suscription> {
-    if (this.appService.verifyApiKey(apikey)) {
-      return await this.suscriptionsService.update(
+    if (await this.appService.verifyApiKey(apikey)) {
+
+      response.status(HttpStatus.OK);
+      response.send( await this.suscriptionsService.update(
         updateSuscriptionDto,
         params.id,
-      );
+      ));
+      return;
+
     } else {
-      response?.status(HttpStatus.NOT_FOUND).send();
+      response?.status(HttpStatus.FORBIDDEN).send();
       return;
     }
   }
