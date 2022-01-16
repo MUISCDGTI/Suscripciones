@@ -38,11 +38,24 @@ export class SuscriptionsController {
     status: 400,
     description: 'Bad request',
   })
+  @ApiQuery({
+    name: 'apikey',
+    type: String,
+    description: 'Autentication',
+    required: true,
+  })
   @Post()
   async createSuscription(
     @Body() createSuscriptionDto: CreateSuscriptionDto,
+    @Query('apikey') apikey: string,
+    @Res() response?: Response,
   ): Promise<Suscription> {
-    return await this.suscriptionsService.create(createSuscriptionDto);
+    if (this.appService.verifyApiKey(apikey)) {
+      return await this.suscriptionsService.create(createSuscriptionDto);
+    } else {
+      response?.status(HttpStatus.NOT_FOUND).send();
+      return;
+    }
   }
 
   @Get()
@@ -79,7 +92,7 @@ export class SuscriptionsController {
       return await this.suscriptionsService.findAll(email, '', category);
     } else {
       response?.status(HttpStatus.NOT_FOUND).send();
-      return
+      return;
     }
   }
 
@@ -93,8 +106,16 @@ export class SuscriptionsController {
     status: 401,
     description: 'Not found',
   })
+  @ApiQuery({
+    name: 'apikey',
+    type: String,
+    description: 'Autentication',
+    required: true,
+  })
   async getSuscription(
     @Param() params: Record<string, string>,
+    @Query('apikey') apikey: string,
+    @Res() response?: Response,
   ): Promise<Suscription> {
     return await this.suscriptionsService.findOne(params.id);
   }
@@ -107,17 +128,25 @@ export class SuscriptionsController {
     status: 401,
     description: 'Not found',
   })
+  @ApiQuery({
+    name: 'apikey',
+    type: String,
+    description: 'Autentication',
+    required: true,
+  })
   @Delete(':id')
   async deleteSuscription(
     @Param() params: Record<string, string>,
+    @Query('apikey') apikey: string,
     @Res() response?: Response,
   ) {
     const deleteResult = await this.suscriptionsService.remove(params.id);
+    if (this.appService.verifyApiKey(apikey) && deleteResult?.affected === 0) {
+      if (deleteResult?.affected === 0)
+        response?.status(HttpStatus.NOT_FOUND).send();
 
-    if (deleteResult?.affected === 0)
-      response?.status(HttpStatus.NOT_FOUND).send();
-
-    response?.status(HttpStatus.NO_CONTENT).send();
+      response?.status(HttpStatus.NO_CONTENT).send();
+    }
 
     return;
   }
@@ -135,15 +164,28 @@ export class SuscriptionsController {
     status: 401,
     description: 'Not found',
   })
+  @ApiQuery({
+    name: 'apikey',
+    type: String,
+    description: 'Autentication',
+    required: true,
+  })
   @HttpCode(200)
   @Put(':id')
   async updateSuscription(
     @Body() updateSuscriptionDto: UpdateSuscriptionDto,
     @Param() params: Record<string, string>,
+    @Query('apikey') apikey: string,
+    @Res() response?: Response,
   ): Promise<Suscription> {
-    return await this.suscriptionsService.update(
-      updateSuscriptionDto,
-      params.id,
-    );
+    if (this.appService.verifyApiKey(apikey)) {
+      return await this.suscriptionsService.update(
+        updateSuscriptionDto,
+        params.id,
+      );
+    } else {
+      response?.status(HttpStatus.NOT_FOUND).send();
+      return;
+    }
   }
 }
