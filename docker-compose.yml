@@ -31,7 +31,7 @@ services:
       - DB_DATABASE=suscripciones
       - HOST_BASE_URL=api/v1/
       - SMTP_USER=rottenpotatoesgrupo3fis@gmail.com
-      - SMTP_PASS=r0tt3nP0T4T03S
+      - SMTP_PASS=zdjmcfeoyrsgklrw
       - MONGO_URL=mongodb+srv://rottenPotatoes:r0tt3nP0T4T03S@rottenpotatoes.jsp4d.mongodb.net/RottenPotatoes?retryWrites=true&w=majority
     # depends_on:
     #   - db
