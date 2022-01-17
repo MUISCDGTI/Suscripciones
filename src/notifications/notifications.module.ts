@@ -5,6 +5,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { SuscriptionsService } from 'src/suscriptions/suscriptions.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Suscription } from 'src/suscriptions/suscription.entity';
+import { AppService } from 'src/app.service';
 
 @Module({
   imports: [
@@ -19,9 +20,9 @@ import { Suscription } from 'src/suscriptions/suscription.entity';
         },
       },
     }),
-    TypeOrmModule.forFeature([Suscription])
+    TypeOrmModule.forFeature([Suscription]),
   ],
   controllers: [NotificationsController],
-  providers: [NotificationsService, SuscriptionsService],
+  providers: [NotificationsService, SuscriptionsService, AppService],
 })
 export class NotificationsModule {}
