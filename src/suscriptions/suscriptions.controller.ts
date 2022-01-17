@@ -150,16 +150,15 @@ export class SuscriptionsController {
     @Res() response?: Response,
   ) {
     const deleteResult = await this.suscriptionsService.remove(params.id);
-    if (await this.appService.verifyApiKey(apikey) && deleteResult?.affected === 0) {
-      if (deleteResult?.affected === 0)
+    if (await this.appService.verifyApiKey(apikey)) {
+      if (deleteResult?.affected === 0){
         response?.status(HttpStatus.NOT_FOUND).send();
-
-      response?.status(HttpStatus.NO_CONTENT).send();
+      }else{
+        response?.status(HttpStatus.NO_CONTENT).send();
+      }
     } else {
       response?.status(HttpStatus.FORBIDDEN).send();
-      return;
     }
-
     return;
   }
 
