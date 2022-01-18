@@ -8,7 +8,7 @@ export class AppService {
     var output = false;
     if (apikey == "rottenpotatoes"){
       output = true;
-    else{
+    }else{
       var response = await axios.post(
           "https://api-gfpedro.cloud.okteto.net/isAuthenticated",
           {token:apikey},
